@@ -1,1 +1,4 @@
 # THIS IS A COLLABORATIVE PROJECT ON THE SIMPLE SHELL.
+
+##CONTRIBUTORS
+``` Joshua Oseghale and Khairat Adesina ```
