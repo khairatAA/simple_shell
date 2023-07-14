@@ -62,3 +62,42 @@ size_t _strcspn(const char *str, const char *charset)
 
 	return (len);
 }
+
+/**
+ * _strdup - duplicates the string
+ * @str: the string to me duplicated
+ * Return: the new string
+ */
+char *_strdup(char *str)
+{
+	size_t length = _strlen(str) + 1;
+	char *new_str = malloc(length);
+
+	if (new_str == NULL)
+		return (NULL);
+	_memcpy(new_str, str, length);
+
+	return (new_str);
+}
+
+/**
+ * _memcpy -  copy memory area
+ * @dest: the destination string
+ * @src: the source string
+ * @n: number of bytes to be copied
+ * Return: returns a pointer to dest
+ */
+void *_memcpy(void *dest, const void *src, size_t n)
+{
+	unsigned char *dest_ptr = (unsigned char *)dest;
+	const unsigned char *src_ptr = (const unsigned char *)src;
+	size_t i = 0;
+
+	while (i < n)
+	{
+		dest_ptr[i] = src_ptr[i];
+		i++;
+	}
+
+	return (dest);
+}

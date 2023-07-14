@@ -25,32 +25,23 @@ void prompt(void)
 
 int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
+	char cmd1[MAX_CMD_LENGTH];
+
 	signal(SIGINT, handle_signal);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 			prompt();
-		cmd = get_command(); /* gets the command */
-		/* cmd[_strcspn(cmd, "\n")] = '\0'; */
-		/* if (_strlen(cmd) == 0) */
-			/* continue; */
+		cmd = fgets(cmd1, sizeof(cmd1), stdin);
+		if (cmd == NULL)
+			exit(0);
+		cmd1[_strcspn(cmd1, "\n")] = '\0';
+		if (_strlen(cmd1) == 0)
+			continue;
+		execute_cmd(cmd, NULL);
 	}
 
 	return (0);
-}
-
-/**
- * get_command - gets the command from the CL
- * Return: returns the command as a sring
- */
-char *get_command(void)
-{
-	char cmd1[MAX_CMD_LENGTH];
-	char *cmd_gotten = fgets(cmd1, sizeof(cmd1), stdin);
-
-	if (cmd_gotten == NULL)
-		exit(0);
-	return (cmd_gotten);
 }
 
 /**
