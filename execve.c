@@ -28,8 +28,12 @@ int countArgs(const char *cmd)
 }
 
 /**
- *
+ * spilt_string - this function tokenize the string
+ * @cmd: command to be tokenized
+ * @ac: argument count
+ * Return: the tokenized command
  */
+
 char **spilt_string(const char *cmd, int ac)
 {
 	char *token, *delimiters = " \n\t\r", *copy_cmd;
@@ -66,11 +70,14 @@ char **spilt_string(const char *cmd, int ac)
 }
 
 /**
- *
+ * execute_cmd - it executes the command
+ * @cmd: the command to be executed
+ * @envp: envp is set to NULL
+ * Return: nothing
  */
 void execute_cmd(const char *cmd, char *const envp[])
 {
-	int ac = countArgs(cmd), status, i;
+	int ac = countArgs(cmd), status;
 	char **new_av = spilt_string(cmd, ac);
 	pid_t pid;
 
@@ -79,12 +86,6 @@ void execute_cmd(const char *cmd, char *const envp[])
 		perror("Error splitting command");
 		exit(EXIT_FAILURE);
 	}
-	printf("Executing command: ");
-	for (i = 0; new_av[i] != NULL; i++)
-	{
-		printf("%s ", new_av[i]);
-	}
-	printf("\n");
 	pid = fork();
 	if (pid == -1)
 	{
@@ -110,7 +111,8 @@ void execute_cmd(const char *cmd, char *const envp[])
 }
 
 /**
- *
+ * free_new_av - it frees the new_av variable used in the execve function
+ * @new_av: the variable to be freed
  */
 void free_new_av(char **new_av)
 {

@@ -13,6 +13,7 @@
 #include <signal.h>
 #include <stddef.h>
 #include <errno.h>
+#include <stdbool.h>
 
 /* FUNCTIONS PROTOTYPES */
 /* char *get_command(char *cmd1); */
@@ -30,6 +31,7 @@ int _strlen(const char *str);
 size_t _strcspn(const char *str, const char *charset);
 char *_strdup(char *str);
 void *_memcpy(void *dest, const void *src, size_t n);
+size_t _strspn(const char *str, const char *charset);
 
 /* MACROS */
 

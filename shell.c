@@ -48,7 +48,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			}
 		}
 		cmd[characters - 1] = '\0';
-		if (_strlen(cmd) == 0 || strspn(cmd, " \t\r\n") ==
+		if (_strlen(cmd) == 0 || _strspn(cmd, " \t\r\n") ==
 			(size_t)_strlen(cmd))
 			continue;
 		execute_cmd(cmd, NULL);
