@@ -15,13 +15,14 @@
 #include <errno.h>
 
 /* FUNCTIONS PROTOTYPES */
-/* char *get_command(void); */
+/* char *get_command(char *cmd1); */
 void handle_signal(int sig);
 void prompt(void);
 int countArgs(const char *cmd);
 char **spilt_string(const char *cmd, int ac);
 void execute_cmd(const char *cmd, char *const envp[]);
 void free_new_av(char **new_av);
+/* char *_fgets(char* str, int buf_size, FILE *stream); */
 
 /* STRING FUNCTIONS PROTOTYPE */
 int _strcmp(const char *str1, const char *str2);
@@ -31,7 +32,6 @@ char *_strdup(char *str);
 void *_memcpy(void *dest, const void *src, size_t n);
 
 /* MACROS */
-#define MAX_CMD_LENGTH 1024
 
 static char *cmd __attribute__((unused));
 

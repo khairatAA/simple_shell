@@ -25,22 +25,38 @@ void prompt(void)
 
 int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
-	char cmd1[MAX_CMD_LENGTH];
+	size_t bufsize = 0;
+	ssize_t characters;
 
+	cmd = NULL;
 	signal(SIGINT, handle_signal);
 	while (1)
 	{
 		if (isatty(STDIN_FILENO))
 			prompt();
-		cmd = fgets(cmd1, sizeof(cmd1), stdin);
-		if (cmd == NULL)
-			exit(0);
-		cmd1[_strcspn(cmd1, "\n")] = '\0';
-		if (_strlen(cmd1) == 0)
+		characters = getline(&cmd, &bufsize, stdin);
+		if (characters == -1)
+		{
+			if (feof(stdin))
+			{
+				break;
+			}
+			else
+			{
+				perror("Error reading input");
+				exit(EXIT_FAILURE);
+			}
+		}
+		cmd[characters - 1] = '\0';
+		if (_strlen(cmd) == 0 || strspn(cmd, " \t\r\n") ==
+			(size_t)_strlen(cmd))
 			continue;
 		execute_cmd(cmd, NULL);
+		free(cmd);
+		cmd = NULL;
 	}
-
+	free(cmd);
+	cmd = NULL;
 	return (0);
 }
 
@@ -56,7 +72,7 @@ void handle_signal(int sig)
 	{
 		if (cmd != NULL)
 		{
-			/* free(cmd); */
+			free(cmd);
 			cmd = NULL;
 		}
 		exit(0);

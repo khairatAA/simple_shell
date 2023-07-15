@@ -8,22 +8,21 @@
 
 int countArgs(const char *cmd)
 {
-	char *token, *delimiters = " \n\t\r", *copy_cmd;
-	int count = 0;
+	int count = 0, isArg = 0, i;
 
-	copy_cmd = _strdup((char *)cmd);
-	if (copy_cmd == NULL)
+	for (i = 0; cmd[i] != '\0'; i++)
 	{
-		perror("Error duplicating the string");
-		exit(EXIT_FAILURE);
+		if (cmd[i] == ' ' || cmd[i] == '\t' || cmd[i] == '\n'
+			|| cmd[i] == '\r')
+		{
+			isArg = 0;
+		}
+		else if (!isArg)
+		{
+			isArg = 1;
+			count++;
+		}
 	}
-	token = strtok(copy_cmd, delimiters);
-	while (token)
-	{
-		count++;
-		token = strtok(NULL, delimiters);
-	}
-	free(copy_cmd);
 
 	return (count);
 }
@@ -33,25 +32,35 @@ int countArgs(const char *cmd)
  */
 char **spilt_string(const char *cmd, int ac)
 {
-	char *token, *delimeters = " \n\t\r", *copy_cmd;
+	char *token, *delimiters = " \n\t\r", *copy_cmd;
 	char **av;
 	int i = 0;
 
-	copy_cmd = _strdup((char*)cmd);
+	copy_cmd = _strdup((char *)cmd);
+	if (copy_cmd == NULL)
+	{
+		perror("Error duplicating command string");
+		exit(EXIT_FAILURE);
+	}
 	av = (char **)malloc(sizeof(char *) * (ac + 1));
 	if (av == NULL)
 	{
 		perror("Allocating memory using malloc failed");
 		exit(EXIT_FAILURE);
 	}
-	token = strtok(copy_cmd, delimeters);
+	token = strtok(copy_cmd, delimiters);
 	while (token)
 	{
 		av[i] = _strdup(token);
-		token = strtok(NULL, delimeters);
+		if (av[i] == NULL)
+		{
+			perror("Error duplicating token string");
+			exit(EXIT_FAILURE);
+		}
+		token = strtok(NULL, delimiters);
 		i++;
 	}
-	av[ac] = NULL;
+	av[i] = NULL;
 	free(copy_cmd);
 	return (av);
 }
@@ -61,19 +70,26 @@ char **spilt_string(const char *cmd, int ac)
  */
 void execute_cmd(const char *cmd, char *const envp[])
 {
-	int ac = countArgs(cmd), status;
+	int ac = countArgs(cmd), status, i;
 	char **new_av = spilt_string(cmd, ac);
 	pid_t pid;
 
 	if (new_av == NULL)
 	{
-		perror(new_av[0]);
+		perror("Error splitting command");
 		exit(EXIT_FAILURE);
 	}
+	printf("Executing command: ");
+	for (i = 0; new_av[i] != NULL; i++)
+	{
+		printf("%s ", new_av[i]);
+	}
+	printf("\n");
 	pid = fork();
 	if (pid == -1)
 	{
 		perror(new_av[0]);
+		free_new_av(new_av);
 		exit(EXIT_FAILURE);
 	}
 	if (pid == 0)
@@ -82,6 +98,7 @@ void execute_cmd(const char *cmd, char *const envp[])
 		{
 			perror(new_av[0]);
 			free_new_av(new_av);
+			free((void *)cmd);
 			exit(EXIT_FAILURE);
 		}
 	}
