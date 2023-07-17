@@ -14,15 +14,18 @@
 #include <stddef.h>
 #include <errno.h>
 #include <stdbool.h>
+#include <sys/stat.h>
 
 /* FUNCTIONS PROTOTYPES */
 /* char *get_command(char *cmd1); */
 void handle_signal(int sig);
 void prompt(void);
 int countArgs(const char *cmd);
-char **spilt_string(const char *cmd, int ac);
+char **split_string(const char *cmd, int ac);
 void execute_cmd(const char *cmd, char *const envp[]);
 void free_new_av(char **new_av);
+char *_getenv(const char *str);
+char *handle_path(const char *cmd);
 /* char *_fgets(char* str, int buf_size, FILE *stream); */
 
 /* STRING FUNCTIONS PROTOTYPE */
@@ -32,9 +35,15 @@ size_t _strcspn(const char *str, const char *charset);
 char *_strdup(char *str);
 void *_memcpy(void *dest, const void *src, size_t n);
 size_t _strspn(const char *str, const char *charset);
+char *_strchr(const char *str, int character);
+int _strncmp(const char *s1, const char *s2, size_t n);
+char *_strcpy(char *to, const char *from);
+char *_strcat(char *to, const char *from);
 
 /* MACROS */
 
 static char *cmd __attribute__((unused));
+extern char **environ;
+#define MAX_PATH_LENGTH 1024
 
 #endif /* SHELL_H */
