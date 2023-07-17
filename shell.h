@@ -29,6 +29,7 @@ char *_getenv(const char *str);
 char *handle_path(const char *cmd);
 int print_error(char *str);
 void _perror(const char *cmd, char *error_message);
+void exit_builtin(void);
 
 /* STRING FUNCTIONS PROTOTYPE */
 

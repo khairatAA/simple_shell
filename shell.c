@@ -51,6 +51,12 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (_strlen(cmd) == 0 || _strspn(cmd, " \t\r\n") ==
 			(size_t)_strlen(cmd))
 			continue;
+		if (_strcmp(cmd, "exit") == 0)
+		{
+			free(cmd);
+			cmd = NULL;
+			exit_builtin();
+		}
 		execute_cmd(cmd, NULL);
 		free(cmd);
 		cmd = NULL;
