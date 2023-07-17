@@ -28,13 +28,13 @@ int countArgs(const char *cmd)
 }
 
 /**
- * spilt_string - this function tokenize the string
+ * split_string - this function tokenize the string
  * @cmd: command to be tokenized
  * @ac: argument count
  * Return: the tokenized command
  */
 
-char **spilt_string(const char *cmd, int ac)
+char **split_string(const char *cmd, int ac)
 {
 	char *token, *delimiters = " \n\t\r", *copy_cmd;
 	char **av;
@@ -78,8 +78,9 @@ char **spilt_string(const char *cmd, int ac)
 void execute_cmd(const char *cmd, char *const envp[])
 {
 	int ac = countArgs(cmd), status;
-	char **new_av = spilt_string(cmd, ac);
+	char **new_av = split_string(cmd, ac);
 	pid_t pid;
+	char *path_cmd = NULL;
 
 	if (new_av == NULL)
 	{
@@ -95,19 +96,27 @@ void execute_cmd(const char *cmd, char *const envp[])
 	}
 	if (pid == 0)
 	{
-		if (execve(new_av[0], new_av, envp) == -1)
+		path_cmd = handle_path(new_av[0]);
+		if (path_cmd == NULL)
 		{
 			perror(new_av[0]);
 			free_new_av(new_av);
 			free((void *)cmd);
 			exit(EXIT_FAILURE);
 		}
+		if (execve(path_cmd, new_av, envp) == -1)
+		{
+			perror(new_av[0]);
+			free_new_av(new_av);
+			free(path_cmd);
+			free((void *)cmd);
+			exit(EXIT_FAILURE);
+		}
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
 	free_new_av(new_av);
+	free(path_cmd);
 }
 
 /**
