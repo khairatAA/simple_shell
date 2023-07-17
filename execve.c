@@ -90,7 +90,7 @@ void execute_cmd(const char *cmd, char *const envp[])
 	pid = fork();
 	if (pid == -1)
 	{
-		perror(new_av[0]);
+		_perror(cmd, "not found");
 		free_new_av(new_av);
 		exit(EXIT_FAILURE);
 	}
@@ -99,14 +99,15 @@ void execute_cmd(const char *cmd, char *const envp[])
 		path_cmd = handle_path(new_av[0]);
 		if (path_cmd == NULL)
 		{
-			perror(new_av[0]);
+			_perror(cmd, "not found");
 			free_new_av(new_av);
+			free(path_cmd);
 			free((void *)cmd);
 			exit(EXIT_FAILURE);
 		}
 		if (execve(path_cmd, new_av, envp) == -1)
 		{
-			perror(new_av[0]);
+			_perror(cmd, "not found");
 			free_new_av(new_av);
 			free(path_cmd);
 			free((void *)cmd);

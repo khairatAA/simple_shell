@@ -2,6 +2,7 @@
 #define SHELL_H
 
 /* INCLUDE HEADER FILES */
+
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
@@ -17,7 +18,7 @@
 #include <sys/stat.h>
 
 /* FUNCTIONS PROTOTYPES */
-/* char *get_command(char *cmd1); */
+
 void handle_signal(int sig);
 void prompt(void);
 int countArgs(const char *cmd);
@@ -26,9 +27,11 @@ void execute_cmd(const char *cmd, char *const envp[]);
 void free_new_av(char **new_av);
 char *_getenv(const char *str);
 char *handle_path(const char *cmd);
-/* char *_fgets(char* str, int buf_size, FILE *stream); */
+int print_error(char *str);
+void _perror(const char *cmd, char *error_message);
 
 /* STRING FUNCTIONS PROTOTYPE */
+
 int _strcmp(const char *str1, const char *str2);
 int _strlen(const char *str);
 size_t _strcspn(const char *str, const char *charset);
