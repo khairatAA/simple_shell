@@ -1,7 +1,9 @@
 #include "shell.h"
 
 /**
- *
+ * handle_path - it is used to handle the path environ
+ * @cmd: the command to check if its in the path environ
+ * Return: the path if its in the path environ
  */
 
 char *handle_path(const char *cmd)
@@ -56,7 +58,9 @@ char *handle_path(const char *cmd)
 }
 
 /**
- *
+ * _getenv - it gets the environ variable
+ * @str: the string to be checked if it's in the environ
+ * Return: the environ if present
  */
 
 char *_getenv(const char *str)

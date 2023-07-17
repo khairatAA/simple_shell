@@ -33,7 +33,10 @@ size_t _strspn(const char *str, const char *charset)
 }
 
 /**
- *
+ * _strchr - locate character in string
+ * @str: the string where the character is to be located
+ * @character: the character to be located
+ * Return: pointer to the matched character
  */
 
 char *_strchr(const char *str, int character)
@@ -42,7 +45,7 @@ char *_strchr(const char *str, int character)
 	{
 		if (*str == character)
 		{
-			return (char *)(str);
+			return ((char *)str);
 		}
 		str++;
 	}
@@ -51,7 +54,11 @@ char *_strchr(const char *str, int character)
 }
 
 /**
- *
+ * _strncmp - compare two strings
+ * @s1: the first string to be compared
+ * @s2: the second string to be compared
+ * @n: the first n bytes to be compared
+ * Return: return an interger if successful
  */
 
 int _strncmp(const char *s1, const char *s2, size_t n)
@@ -71,7 +78,10 @@ int _strncmp(const char *s1, const char *s2, size_t n)
 }
 
 /**
- *
+ * _strcpy - copy a string
+ * @to: the destination string
+ * @from: the source string
+ * Return: the destination string
  */
 
 char *_strcpy(char *to, const char *from)
@@ -89,7 +99,10 @@ char *_strcpy(char *to, const char *from)
 }
 
 /**
- *
+ * _strcat - concatenate two strings
+ * @to: the destination string
+ * @from: the source string
+ * Return: the destination string
  */
 
 char *_strcat(char *to, const char *from)

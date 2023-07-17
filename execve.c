@@ -114,9 +114,7 @@ void execute_cmd(const char *cmd, char *const envp[])
 		}
 	}
 	else
-	{
 		waitpid(pid, &status, 0);
-	}
 	free_new_av(new_av);
 	free(path_cmd);
 }
