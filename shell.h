@@ -30,6 +30,7 @@ char *handle_path(const char *cmd);
 int print_error(char *str);
 void _perror(const char *cmd, char *error_message);
 void exit_builtin(void);
+void handle_env(void);
 
 /* STRING FUNCTIONS PROTOTYPE */
 
