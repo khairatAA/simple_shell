@@ -17,6 +17,20 @@
 #include <stdbool.h>
 #include <sys/stat.h>
 
+/* STRUCTURE  */
+
+/**
+ * struct Node_env - structure that handles the env
+ * @data: the env list
+ * @next: pointer to the next node
+ */
+
+typedef struct Node_env
+{
+	char *data;
+	struct Node_env *next;
+} Node_env;
+
 /* FUNCTIONS PROTOTYPES */
 
 void handle_signal(int sig);
@@ -30,7 +44,10 @@ char *handle_path(const char *cmd);
 int print_error(char *str);
 void _perror(const char *cmd, char *error_message);
 void exit_builtin(void);
+Node_env *add_new_var(Node_env *head, char *new_var);
+void print_env(Node_env *head);
 void handle_env(void);
+void free_env(Node_env *head);
 
 /* STRING FUNCTIONS PROTOTYPE */
 
