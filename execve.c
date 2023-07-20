@@ -8,37 +8,8 @@
 
 int countArgs(const char *cmd)
 {
-	int count = 0, isArg = 0, i;
-
-	for (i = 0; cmd[i] != '\0'; i++)
-	{
-		if (cmd[i] == ' ' || cmd[i] == '\t' || cmd[i] == '\n'
-			|| cmd[i] == '\r')
-		{
-			isArg = 0;
-		}
-		else if (!isArg)
-		{
-			isArg = 1;
-			count++;
-		}
-	}
-
-	return (count);
-}
-
-/**
- * split_string - this function tokenize the string
- * @cmd: command to be tokenized
- * @ac: argument count
- * Return: the tokenized command
- */
-
-char **split_string(const char *cmd, int ac)
-{
 	char *token, *delimiters = " \n\t\r", *copy_cmd;
-	char **av;
-	int i = 0;
+	int num_tokens = 0;
 
 	copy_cmd = _strdup((char *)cmd);
 	if (copy_cmd == NULL)
@@ -46,10 +17,40 @@ char **split_string(const char *cmd, int ac)
 		perror("Error duplicating command string");
 		exit(EXIT_FAILURE);
 	}
-	av = (char **)malloc(sizeof(char *) * (ac + 1));
+	token = strtok(copy_cmd, delimiters);
+	while (token)
+	{
+		num_tokens++;
+		token = strtok(NULL, delimiters);
+	}
+	free(copy_cmd);
+	return (num_tokens);
+}
+
+/**
+ * split_string - this function tokenize the string
+ * @cmd: command to be tokenized
+ * Return: the tokenized command
+ */
+
+char **split_string(const char *cmd)
+{
+	char *token, *delimiters = " \n\t\r", *copy_cmd;
+	char **av;
+	int i = 0, j, num_tokens;
+
+	copy_cmd = _strdup((char *)cmd);
+	if (copy_cmd == NULL)
+	{
+		perror("Error duplicating command string");
+		exit(EXIT_FAILURE);
+	}
+	num_tokens = countArgs(copy_cmd);
+	av = (char **)malloc(sizeof(char *) * (num_tokens + 1));
 	if (av == NULL)
 	{
 		perror("Allocating memory using malloc failed");
+		free(copy_cmd);
 		exit(EXIT_FAILURE);
 	}
 	token = strtok(copy_cmd, delimiters);
@@ -59,6 +60,10 @@ char **split_string(const char *cmd, int ac)
 		if (av[i] == NULL)
 		{
 			perror("Error duplicating token string");
+			for (j = 0; j < i; j++)
+				free(av[j]);
+			free(av);
+			free(copy_cmd);
 			exit(EXIT_FAILURE);
 		}
 		token = strtok(NULL, delimiters);
@@ -77,8 +82,8 @@ char **split_string(const char *cmd, int ac)
  */
 void execute_cmd(const char *cmd, char *const envp[])
 {
-	int ac = countArgs(cmd), status;
-	char **new_av = split_string(cmd, ac);
+	int status;
+	char **new_av = split_string(cmd);
 	pid_t pid;
 	char *path_cmd = NULL;
 

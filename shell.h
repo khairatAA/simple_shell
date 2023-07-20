@@ -36,7 +36,7 @@ typedef struct Node_env
 void handle_signal(int sig);
 void prompt(void);
 int countArgs(const char *cmd);
-char **split_string(const char *cmd, int ac);
+char **split_string(const char *cmd);
 void execute_cmd(const char *cmd, char *const envp[]);
 void free_new_av(char **new_av);
 char *_getenv(const char *str);
@@ -48,6 +48,7 @@ Node_env *add_new_var(Node_env *head, char *new_var);
 void print_env(Node_env *head);
 void handle_env(void);
 void free_env(Node_env *head);
+char *_strtok(char *str, const char *delim);
 
 /* STRING FUNCTIONS PROTOTYPE */
 
