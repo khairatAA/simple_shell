@@ -1,4 +1,4 @@
-include "main.h"
+#include "shell.h"
 
 /**
  * _cdir - changes current working directory and updates OLDPWD
@@ -12,7 +12,7 @@ int _cdir(char *cmd)
 	char *name, *path, *oldpwd, *pwd;
 
 	name = (strtok(cmd, " \n"));
-	if (name == NULL || name != "cd")
+	if (name == NULL || _strcmp(name, "cd") != 0)
 	{
 		perror("Invalid command");
 		return (-1);
@@ -23,7 +23,7 @@ int _cdir(char *cmd)
 		oldpwd = _getenv("PWD");
 		path = _getenv("HOME");
 		chdir (path);
-		_setenv = ("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
+		setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
 		/* update PWD */
 		return (0);
 	}
@@ -39,7 +39,7 @@ int _cdir(char *cmd)
 		else
 		{
 			chdir (path);
-			setenv = ("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
+			setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
 			/* update PWD */
 			return (0);
 		}
@@ -52,7 +52,7 @@ int _cdir(char *cmd)
 	}
 	oldpwd = _getenv("PWD");
 	chdir (path);
-	_setenv = ("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
+	setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
 	/* update PWD */
 	return (0);
 }
