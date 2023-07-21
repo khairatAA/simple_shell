@@ -43,12 +43,13 @@ char *_getenv(const char *str);
 char *handle_path(const char *cmd);
 int print_error(char *str);
 void _perror(const char *cmd, char *error_message);
-void exit_builtin(void);
+void exit_builtin(char *cmd, char *status);
 Node_env *add_new_var(Node_env *head, char *new_var);
 void print_env(Node_env *head);
 void handle_env(void);
 void free_env(Node_env *head);
 char *_strtok(char *str, const char *delim);
+int _atoi(char *str);
 
 /* STRING FUNCTIONS PROTOTYPE */
 
