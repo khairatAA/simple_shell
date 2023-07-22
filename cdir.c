@@ -8,10 +8,10 @@
  */
 int _cdir(char *cmd)
 {
-	char *path, *oldpwd, *pwd, *dup;
+	char *path, *oldpwd, *pwd, *dup, buf[256];
 	int words;
+	size_t size = 256;
 
-	oldpwd = _getenv("PWD");
 	dup = _strdup(cmd);
 	words = wcount(dup, " \t\r");
 	if (words > 2)
@@ -23,15 +23,14 @@ int _cdir(char *cmd)
 	path = strtok(NULL, " ");
 	if (path == NULL)			/* home directory */
 	{
-		/* store current path in oldpwd */
+		oldpwd = getcwd(buf, size);
 		chdir(_getenv("HOME"));
-		setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
+		setenv("OLDPWD", oldpwd, 1);
 		setenv("PWD", _getenv("PWD"), 1);
 		return (0);
 	}
 	if (_strcmp(path, "-") == 0)
 	{
-		oldpwd = _getenv("PWD");
 		if (_getenv("OLDPWD") == NULL)
 		{
 			perror("OLDPWD");	/* OLDPWD not net */
@@ -39,22 +38,22 @@ int _cdir(char *cmd)
 		}
 		else
 		{
-			/* get current path and store in oldpwd */
+			oldpwd = getcwd(buf, size);
 			chdir(_getenv("OLDPWD"));
 			setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
-			/* get current path and store in PWD */
-			setenv("PWD", _getenv("PWD"), 1);
+			pwd = getcwd(buf, size);
+			setenv("PWD", pwd, 1);
 			return (0);
 		}
 	}
-	/* get current path and store in oldpwd */
+	oldpwd = getcwd(buf, size);
 	if (chdir(path) == -1)
 	{
 		perror("Invalid Argument");
 		return (-1);
 	}
 	setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
-	/* get current path and store in PWD */
-	setenv("PWD", _getenv("PWD"), 1);
+	pwd = getcwd(buf, size);
+	setenv("PWD", pwd, 1);
 	return (0);
 }
