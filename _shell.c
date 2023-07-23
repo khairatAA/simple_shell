@@ -52,8 +52,14 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (_strlen(cmd) == 0 || _strspn(cmd, " \t\r\n") ==
 			(size_t)_strlen(cmd))
 			continue;
-		/* Add function to check for commnents */
-		
+		/* check for commnents */
+		if (handle_comment(cmd) == NULL)
+		{
+			free(cmd);
+			cmd = NULL;
+			continue;
+		}
+		/* handle_comment modifies cmd */
 
 		if (_strcmp(cmd, "env") == 0)
 		{
@@ -73,7 +79,8 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (_strcmp(strtok(dup, " \t\r\n"), "cd") == 0)
 		{
 			_cdir(cmd);
-			free(cmd); free(dup);
+			free(cmd);
+			free(dup);
 			dup = cmd = NULL;
 			continue;
 		}
