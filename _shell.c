@@ -70,7 +70,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		}
 		/* start of code to handle cd command */
 		dup = _strdup(cmd);
-		if (strcmp(strtok(dup, " \t\r\n"), "cd") == 0)
+		if (_strcmp(strtok(dup, " \t\r\n"), "cd") == 0)
 		{
 			_cdir(cmd);
 			free(cmd); free(dup);
