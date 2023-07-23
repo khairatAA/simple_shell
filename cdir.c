@@ -17,8 +17,8 @@ int _cdir(char *cmd)
 	if (words > 2)
 	{
 		perror("Invalid Argument");
-		free(cmd); free(dup);
-		dup = cmd = NULL;
+		free(dup);
+		dup = NULL;
 		return (-1);
 	}
 	strtok(cmd, " \t\r");
@@ -29,8 +29,8 @@ int _cdir(char *cmd)
 		chdir(_getenv("HOME"));
 		setenv("OLDPWD", oldpwd, 1);
 		setenv("PWD", _getenv("PWD"), 1);
-		free(cmd); free(dup);
-		dup = cmd = NULL;
+		free(dup);
+		dup = NULL;
 		return (0);
 	}
 	if (_strcmp(path, "-") == 0)
@@ -38,8 +38,8 @@ int _cdir(char *cmd)
 		if (_getenv("OLDPWD") == NULL)
 		{
 			perror("OLDPWD");	/* OLDPWD not net */
-			free(cmd); free(dup);
-			dup = cmd = NULL;
+			free(dup);
+			dup = NULL;
 			return (-1);
 		}
 		else
@@ -49,8 +49,8 @@ int _cdir(char *cmd)
 			setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
 			pwd = getcwd(buf, size);
 			setenv("PWD", pwd, 1);
-			free(cmd); free(dup);
-			dup = cmd = NULL;
+			free(dup);
+			dup = NULL;
 			return (0);
 		}
 	}
@@ -58,14 +58,14 @@ int _cdir(char *cmd)
 	if (chdir(path) == -1)
 	{
 		perror("Invalid Argument");
-		free(cmd); free(dup);
-		dup = cmd = NULL;
+		free(dup);
+		dup = NULL;
 		return (-1);
 	}
 	setenv("OLDPWD", oldpwd, 1);	/* Update OLDPWD */
 	pwd = getcwd(buf, size);
 	setenv("PWD", pwd, 1);
-	free(cmd); free(dup);
-	dup = cmd = NULL;
+	free(dup);
+	dup = NULL;
 	return (0);
 }
