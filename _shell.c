@@ -78,7 +78,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		dup = _strdup(cmd);
 		if (_strcmp(strtok(dup, " \t\r\n"), "cd") == 0)
 		{
-			_cdir(cmd);
+			change_dir(cmd);
 			free(cmd);
 			free(dup);
 			dup = cmd = NULL;

@@ -27,12 +27,12 @@ int wcount(char *str, char *delim)
 }
 
 /**
- * _cdir - changes current working directory and updates OLDPWD
+ * change_dir - changes current working directory and updates OLDPWD
  * @cmd: command to change working directory
  *
  * Return: 0 if successful, -1 otherwise
  */
-int _cdir(char *cmd)
+int change_dir(char *cmd)
 {
 	char *path, *oldpwd, *pwd, *dup, buf[256];
 	int words;
