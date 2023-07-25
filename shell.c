@@ -29,7 +29,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
 	size_t bufsize = 0;
 	ssize_t characters;
-	char *status = NULL, *exit_str = "exit ", *status_copy;
+	char *status = NULL, *exit_str = "exit ", *status_copy, *dup;
 
 	cmd = NULL;
 	signal(SIGINT, handle_signal);
@@ -46,6 +46,13 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		if (_strlen(cmd) == 0 || _strspn(cmd, " \t\r\n") ==
 			(size_t)_strlen(cmd))
 			continue;
+		/* check for comments, handle_comment modifies cmd */
+ 		if (handle_comment(cmd) == NULL)
+ 		{
+			free(cmd);
+			cmd = NULL;
+			continue;
+		}
 		if (_strcmp(cmd, "env") == 0)
 		{
 			handle_env();
@@ -60,6 +67,17 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 			exit_builtin(cmd, NULL);
 			continue;
 		}
+		/* Handle cd command */
+		dup = _strdup(cmd);
+		if (_strcmp(strtok(dup, " \t\r\n"), "cd") == 0)
+		{
+			change_dir(cmd);
+			free(cmd);
+			free(dup);
+			dup = cmd = NULL;
+			continue;
+		}
+		free(dup);
 		if (_strncmp(cmd, exit_str, _strlen(exit_str)) == 0)
 		{
 			status = cmd + _strlen(exit_str);
