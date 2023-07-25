@@ -110,13 +110,13 @@ void execute_cmd(const char *cmd, char *const envp[])
 			free((void *)cmd);
 			exit(EXIT_FAILURE);
 		}
-		if (execve(path_cmd, new_av, envp) == -1)
+		else if (execve(path_cmd, new_av, envp) == -1)
 		{
 			_perror(cmd, "not found");
 			free_new_av(new_av);
 			free(path_cmd);
 			free((void *)cmd);
-			exit(EXIT_FAILURE);
+			_exit(1);
 		}
 	}
 	else

@@ -16,6 +16,8 @@ void prompt(void)
 	}
 }
 
+int updated = 0;
+
 /**
  * main - the entry point of the simple shell
  * @ac: command line argument count
@@ -38,15 +40,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		characters = getline(&cmd, &bufsize, stdin);
 		if (characters == -1)
 		{
-			if (feof(stdin))
-			{
-				break;
-			}
-			else
-			{
-				perror("Error reading input");
-				exit(EXIT_FAILURE);
-			}
+			break;
 		}
 		cmd[characters - 1] = '\0';
 		if (_strlen(cmd) == 0 || _strspn(cmd, " \t\r\n") ==
@@ -102,6 +96,10 @@ void handle_signal(int sig)
 		{
 			free(cmd);
 			cmd = NULL;
+		}
+		if (updated == 1)
+		{
+			free_environ(environ);
 		}
 		exit(0);
 	}
