@@ -55,6 +55,9 @@ char *_strtok(char *str, const char *delim);
 int _atoi(char *str);
 int word_count(char *av, char ***args);
 void free_environ(char **env);
+int change_dir(char *cmd);
+int wcount(char *str, char *delim);
+char *handle_comment(char *cmd);
 
 /* STRING FUNCTIONS PROTOTYPE */
 
