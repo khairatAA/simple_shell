@@ -10,7 +10,7 @@ char *handle_path(const char *cmd)
 {
 	const char *var = "PATH";
 	const char *delim = ":";
-	char *path = _getenv(var), *path_copy, *path_token;
+	char *path = _getenv(var), *path_copy = NULL, *path_token;
 	char *file_path = NULL;
 	size_t cmd_len = _strlen(cmd), dir_len;
 	struct stat check_path;

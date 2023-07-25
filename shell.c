@@ -16,6 +16,8 @@ void prompt(void)
 	}
 }
 
+int updated = 0;
+
 /**
  * main - the entry point of the simple shell
  * @ac: command line argument count
@@ -27,6 +29,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 {
 	size_t bufsize = 0;
 	ssize_t characters;
+	char *status = NULL, *exit_str = "exit ", *status_copy;
 
 	cmd = NULL;
 	signal(SIGINT, handle_signal);
@@ -37,15 +40,7 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		characters = getline(&cmd, &bufsize, stdin);
 		if (characters == -1)
 		{
-			if (feof(stdin))
-			{
-				break;
-			}
-			else
-			{
-				perror("Error reading input");
-				exit(EXIT_FAILURE);
-			}
+			break;
 		}
 		cmd[characters - 1] = '\0';
 		if (_strlen(cmd) == 0 || _strspn(cmd, " \t\r\n") ==
@@ -62,7 +57,21 @@ int main(int ac __attribute__((unused)), char **av __attribute__((unused)))
 		{
 			free(cmd);
 			cmd = NULL;
-			exit_builtin();
+			exit_builtin(cmd, NULL);
+			continue;
+		}
+		if (_strncmp(cmd, exit_str, _strlen(exit_str)) == 0)
+		{
+			status = cmd + _strlen(exit_str);
+			if (status[0] == '\0')
+				status = NULL;
+			status_copy = (status != NULL) ? _strdup(status) : NULL;
+			free(cmd);
+			cmd = NULL;
+			exit_builtin(status_copy, status_copy);
+			free(status_copy);
+			status_copy = NULL;
+			continue;
 		}
 		execute_cmd(cmd, NULL);
 		free(cmd);
@@ -87,6 +96,10 @@ void handle_signal(int sig)
 		{
 			free(cmd);
 			cmd = NULL;
+		}
+		if (updated == 1)
+		{
+			free_environ(environ);
 		}
 		exit(0);
 	}
