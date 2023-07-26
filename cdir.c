@@ -42,7 +42,7 @@ int change_dir(char *cmd)
 	words = wcount(dup, " \t\r");
 	if (words > 2)
 	{
-		perror("Invalid Argument");
+		_perror(cmd, "too many arguments");
 		free(dup);
 		dup = NULL;
 		return (-1);
@@ -83,7 +83,10 @@ int change_dir(char *cmd)
 	oldpwd = getcwd(buf, size);
 	if (chdir(path) == -1)
 	{
-		perror("Invalid Argument");
+		print_error(_getenv("_"));
+		print_error(": 1: cd: can't cd to ");
+		write(STDERR_FILENO, path, _strlen(path));
+		print_error("\n");
 		free(dup);
 		dup = NULL;
 		return (-1);
