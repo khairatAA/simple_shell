@@ -17,7 +17,7 @@ char *handle_path(const char *cmd)
 
 	if (path == NULL)
 	{
-		perror(var);
+		_perror(cmd, "not found");
 		exit(EXIT_FAILURE);
 	}
 	path_copy = _strdup(path);
