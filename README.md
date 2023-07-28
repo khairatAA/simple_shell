@@ -102,11 +102,9 @@ $
 
 Execute the generated `hsh` binary to start the shell.
 
-	- To execute in interactive mode:
-`./hsh`
-	- To execute in non-interactive mode:
-`echo "command" | ./hsh`
-	- Pass in commands as you would in the sh shell.
+- To execute in interactive mode: `./hsh`
+- To execute in non-interactive mode: `echo "command" | ./hsh`
+- Pass in commands as you would in the sh shell.
 
 ## Contributors
 
