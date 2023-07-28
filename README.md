@@ -53,7 +53,7 @@ hsh main.c shell.c
 $
 ```
 
-But also in non-interactive mode:
+And this way in non-interactive mode:
 ```
 $ echo "/bin/ls" | ./hsh
 hsh main.c shell.c test_ls_2
@@ -69,7 +69,7 @@ $
 ```
 
 ## Output
-The has the exact same output as `sh (/bin/sh)` as well as the exact same error output. The only difference is when you print an error, the name of the program must be equivalent to your `argv[0]` (See example below)
+I hhas the exact same output as `sh (/bin/sh)` as well as the exact same error output. The only difference is when you print an error, the name of the program must be equivalent to your `argv[0]` (See example below)
 
 Example of error with `sh`:
 
@@ -102,9 +102,11 @@ $
 
 Execute the generated `hsh` binary to start the shell.
 
-	- To execute in interactive mode:`./hsh`
-	- To execute in non-interactive mode: `echo "command" | ./hsh`
-	- Pass in commands as you would in the `sh` shell.
+	- To execute in interactive mode:
+`./hsh`
+	- To execute in non-interactive mode:
+`echo "command" | ./hsh`
+	- Pass in commands as you would in the sh shell.
 
 ## Contributors
 
