@@ -69,7 +69,7 @@ $
 ```
 
 ## Output
-I hhas the exact same output as `sh (/bin/sh)` as well as the exact same error output. The only difference is when you print an error, the name of the program must be equivalent to your `argv[0]` (See example below)
+It hhas the exact same output as `sh (/bin/sh)` as well as the exact same error output. The only difference is when you print an error, the name of the program must be equivalent to your `argv[0]` (See example below)
 
 Example of error with `sh`:
 
@@ -104,9 +104,9 @@ Execute the generated `hsh` binary to start the shell.
 
 - To execute in interactive mode: `./hsh`
 - To execute in non-interactive mode: `echo "command" | ./hsh`
-- Pass in commands as you would in the sh shell.
+- Pass in commands as you would in the `sh` shell.
 
 ## Contributors
 
-	- Khairat Adesina <khairatadesina01@gmail.com>
-	- Joshua Oseghale <aigbokhaebholojoshua@gmail.com>
+- _Khairat Adesina_ <khairatadesina01@gmail.com>
+- _Joshua Oseghale_ <aigbokhaebholojoshua@gmail.com>
